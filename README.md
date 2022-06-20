@@ -4,8 +4,13 @@ Environment to practice IAC for AWS
 
 ### In order to use the A Cloud Guru playground account and spin up an environment:
 
+##### Clone this repository to your local machine
+```
+git clone git@github.com:CURRTIS1/Terraform.git
+```
+
 ##### Set the local stored credentials to your personal access keys
-##### This is the account which will store your state file
+###### Note: This is the account which will store your state file, region may vary
 ```
 aws configure set aws_access_key_id ************************** --profile default
 aws configure set aws_secret_access_key ************************** --profile default
@@ -32,7 +37,11 @@ terraform {
 }
 ```
 
-#### Store the Linux Academy credentials in your secrets file 'terraform.secret.tf'
+#### Create a file 'terraform.secret.tf' in the Terraform folder
+
+#### Open a Sandbox environment in A Cloud Guru
+
+#### Store the A Cloud Guru credentials in your secrets file 'terraform.secret.tf'
 ```
 variable "aws_access_key" {
   description = "The AWS Access Key"
@@ -45,7 +54,7 @@ variable "aws_secret_key" {
 }
 ```
 
-#### Reference the stored credentials in your provider block
+#### The stored credentials in your secrets file are referenced in the provider block
 ```
 provider "aws" {
   region     = var.region
@@ -55,4 +64,4 @@ provider "aws" {
 ```
 
 ###### Note: Add '*.secret.tf' to your .gitignore file
-###### Note: If you fork this repo ensure to update the module sources in the main.tf files
+###### Note: When forking this repo ensure to update the module sources in the main.tf files
