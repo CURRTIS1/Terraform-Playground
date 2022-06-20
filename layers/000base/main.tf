@@ -35,7 +35,7 @@ provider "aws" {
 ## vpc module
 
 module "vpc_basenetwork" {
-  source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/vpc_basenetwork"
+  source = "github.com/CURRTIS1/Terraform/modules/vpc_basenetwork"
 
   vpc_cidr             = var.vpc_cidr
   subnet_public_range  = var.subnet_public_range
