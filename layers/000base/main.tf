@@ -16,11 +16,7 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket  = "curtis-terraform-test-2020"
-    key     = "terraform.000base.tfstate"
-    region  = "us-east-1"
-    encrypt = true
+  backend "local" {
   }
 }
 
@@ -30,6 +26,13 @@ provider "aws" {
   secret_key = var.aws_secret_key
 }
 
+data "terraform_remote_state" "local_state" {
+  backend = "local"
+
+  config = {
+    path = "${path.module}/terraform.000base.tfstate"
+  }
+}
 
 ## ----------------------------------
 ## vpc module

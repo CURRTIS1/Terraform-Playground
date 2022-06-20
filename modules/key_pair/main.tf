@@ -8,7 +8,7 @@ This module is used to create a mySQL RDS instancs
 Usage:
 
 module "key_pair" {
-    source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/key_pair"
+    source = "github.com/CURRTIS1/Terraform/modules/key_pair"
 
     key_name = var.key_name
 

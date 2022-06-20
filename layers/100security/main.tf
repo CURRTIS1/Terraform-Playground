@@ -55,7 +55,7 @@ data "terraform_remote_state" "state_000base" {
 ## sg module
 
 module "security_groups" {
-  source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/security_groups"
+  source = "github.com/CURRTIS1/Terraform/modules/security_groups"
 
   vpc_id = data.terraform_remote_state.state_000base.outputs.vpc_id
 }

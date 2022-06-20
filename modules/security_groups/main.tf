@@ -8,7 +8,7 @@ This module is used to create Security groups
 Usage:
 
 module "security_groups" {
-    source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/security_groups"
+    source = "github.com/CURRTIS1/Terraform/modules/security_groups"
 
 }
 

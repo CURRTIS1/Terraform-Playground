@@ -8,7 +8,7 @@ This module is used to create a test Windows instance
 Usage:
 
 module "ec2_test_windows" {
-    source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/ec2_test_windows"
+    source = "github.com/CURRTIS1/Terraform/modules/ec2_test_windows"
 
     windowstest_instance_name = var.windowstest_instance_name
 

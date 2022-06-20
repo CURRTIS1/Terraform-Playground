@@ -8,7 +8,7 @@ This module is used to create an ECR Repository
 Usage:
 
 module "ecr_repo" {
-  source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/ecr_repository"
+  source = "github.com/CURRTIS1/Terraform/modules/ecr_repository"
 
   repository_name = "my_ecr_repository"
   image_tag_mutability = "MUTABLE"

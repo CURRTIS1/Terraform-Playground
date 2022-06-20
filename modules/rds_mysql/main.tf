@@ -8,7 +8,7 @@ This module is used to create a mySQL RDS instance
 Usage
 
 module "rds_mysql" {
-    source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/rds_mysql"
+    source = "github.com/CURRTIS1/Terraform/modules/rds_mysql"
 
     engine_version = var.engine_version
 
