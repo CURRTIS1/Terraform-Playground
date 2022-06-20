@@ -17,7 +17,7 @@ aws configure set aws_secret_access_key ************************** --profile def
 aws configure set region us-east-1 --profile default
 ```
 
-#### In the main.tf file of each layer put your bucket name in
+#### In the main.tf file of each layer put your state bucket name in
 ```
 terraform {
   required_version = "1.2.0"
@@ -63,5 +63,7 @@ provider "aws" {
 }
 ```
 
+###### Note: When you run a terraform apply it will deploy in the ACG environment
+###### Note: Your state file will be stored in the bucket and account you reference in your local credentials
 ###### Note: Add '*.secret.tf' to your .gitignore file
 ###### Note: When forking this repo ensure to update the module sources in the main.tf files
