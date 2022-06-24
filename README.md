@@ -27,6 +27,13 @@ variable "aws_secret_key" {
 ```
 
 
+#### Run a terraform initialisation for any layer you want to run 'terraform init'
+
+#### You don't have to apply all layers, just the 000base layer and any subsequent layer listed in the 'Required layers' section in the main.tf file
+
+
+-----------------------------------------------------------------------------------------------
+
 #### Notes:
 ###### The stored credentials in your secrets file are referenced in the provider block
 ###### This repo expects you to have at least terraform version 1.2.0 installed
