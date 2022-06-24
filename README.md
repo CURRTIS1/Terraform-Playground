@@ -29,8 +29,9 @@ variable "aws_secret_key" {
 
 #### Run a terraform initialisation for any layer you want to run 'terraform init'
 
-#### You don't have to apply all layers, just the 000base layer and any subsequent layer listed in the 'Required layers' section in the main.tf file
+#### To apply a layer change your directory to the layer ie ./Terraform/layers/000base and run 'terraform apply'
 
+#### You don't have to apply all layers, just the 000base layer and any subsequent layer listed in the 'Required layers' section in the main.tf file
 
 -----------------------------------------------------------------------------------------------
 
