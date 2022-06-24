@@ -18,7 +18,7 @@ module "rds_mysql" {
 
 
 terraform {
-  required_version = "1.2.1"
+  required_version = "~> 1.2.0"
 }
 
 locals {

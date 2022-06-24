@@ -16,7 +16,7 @@ module "prometheus_grafana" {
 
 
 terraform {
-  required_version = "1.2.1"
+  required_version = "~> 1.2.0"
 }
 
 locals {
@@ -30,6 +30,36 @@ locals {
 data "aws_caller_identity" "current" {
 }
 
+
+## ----------------------------------
+## Prometheus S3 bucket
+
+resource "aws_s3_bucket" "prometheus_bucket" {
+}
+
+resource "aws_s3_bucket_versioning" "prometheus_bucket_versioning" {
+  bucket = aws_s3_bucket.prometheus_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
+## ----------------------------------
+## S3 bucket
+
+resource "null_resource" "my_resource" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  provisioner "local-exec" {
+    command = "aws s3 sync ${path.module}/prometheus.yml s3://${aws_s3_bucket.prometheus_bucket.id}"
+    environment = {
+      AWS_ACCESS_KEY_ID     = var.aws_access_key
+      AWS_SECRET_ACCESS_KEY = var.aws_secret_key
+    }
+  }
+}
 
 ## ----------------------------------
 ## ECS Service Security Group
@@ -298,7 +328,7 @@ resource "aws_ecs_task_definition" "myprometheustaskdef" {
   container_definitions = jsonencode([
     {
       name      = "sample-metrics-application"
-      image     = "tkgregory/sample-metrics-application"
+      image     = "currtis1/sample-metrics-application"
       essential = true
       "dockerLabels" : {
         "PROMETHEUS_EXPORTER_PATH" : "/actuator/prometheus",
@@ -388,14 +418,14 @@ resource "aws_ecs_task_definition" "myprometheustaskdef2" {
   container_definitions = jsonencode([
     {
       name  = "prometheus-for-ecs"
-      image = "tkgregory/prometheus-with-remote-configuration:latest"
+      image = "currtis1/prometheus-with-remote-configuration:latest"
       portMappings = [
         {
           containerPort = 9090
         }
       ]
       "environment" : [
-        { "name" : "CONFIG_LOCATION", "value" : "https://tomgregory-cloudformation-resources.s3-eu-west-1.amazonaws.com/prometheus.yml" }
+        { "name" : "CONFIG_LOCATION", "value" : "s3://${aws_s3_bucket.prometheus_bucket.id}/prometheus.yml" }
       ]
       "MountPoints" = [
         {
@@ -418,7 +448,7 @@ resource "aws_ecs_task_definition" "myprometheustaskdef2" {
     },
     {
       name  = "prometheus-ecs-discovery"
-      image = "tkgregory/prometheus-ecs-discovery:latest"
+      image = "currtis1/prometheus-ecs-discovery:latest"
       "environment" : [
         { "name" : "AWS_REGION", "value" : "us-east-1" }
       ]

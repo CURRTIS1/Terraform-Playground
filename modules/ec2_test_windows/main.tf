@@ -19,7 +19,7 @@ module "ec2_test_windows" {
 
 
 terraform {
-  required_version = "1.2.1"
+  required_version = "~> 1.2.0"
 }
 
 locals {
