@@ -44,6 +44,26 @@ resource "aws_s3_bucket_versioning" "prometheus_bucket_versioning" {
   }
 }
 
+resource "aws_s3_bucket_policy" "allow_public_access" {
+  bucket = aws_s3_bucket.prometheus_bucket.id
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": [
+        "${aws_s3_bucket.prometheus_bucket.arn}",
+        "${aws_s3_bucket.prometheus_bucket.arn}/*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
 
 ## ----------------------------------
 ## Pushing prometheus.yml to S3
@@ -425,7 +445,7 @@ resource "aws_ecs_task_definition" "myprometheustaskdef2" {
         }
       ]
       "environment" : [
-        { "name" : "CONFIG_LOCATION", "value" : "s3://${aws_s3_bucket.prometheus_bucket.id}/prometheus.yml" }
+        { "name" : "CONFIG_LOCATION", "value" : "https://${aws_s3_bucket.prometheus_bucket.id}.s3.amazonaws.com/prometheus.yml" }
       ]
       "MountPoints" = [
         {

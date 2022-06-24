@@ -1,7 +1,7 @@
 # prometheus_grafana
 Terraform prometheus_grafana module
 
-This module creates an ECS cluster with test ECS services and an ECS service for both Prometheus and Grafana
+This module creates an isolated ECS cluster with test ECS services and an ECS service for both Prometheus and Grafana
 
 The following variables are required when calling the module:
 
@@ -26,4 +26,3 @@ http://<public-ip>:9090
 ```
 http://<public-ip>:3000
 ```
-
