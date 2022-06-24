@@ -8,3 +8,4 @@ private.md
 *.hcl
 999test/
 *.tfstate.backup
+*.backup
