@@ -1,12 +1,12 @@
 /*
 
-350container - terraform.tfvars
+400container - terraform.tfvars
 
 */
 
 region                 = "us-east-1"
 environment            = "dev"
-layer                  = "300container"
+layer                  = "400container"
 tg_name                = "alb-external-tg"
 elb_name               = "alb-external"
 target_type            = "instance"

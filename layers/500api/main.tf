@@ -1,18 +1,18 @@
 /*
 
-400api - main.tf
+500api - main.tf
 
 Required layers:
 000base
 100security
-350container
+400container
 
 Required modules:
 
 */
 
 terraform {
-  required_version = "1.2.1"
+  required_version = "~> 1.2.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -20,11 +20,8 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket = "curtis-terraform-test-2020"
-    key    = "terraform.400api.tfstate"
-    region = "us-east-1"
-    encrypt = true
+  backend "local" {
+    path = "./terraform.500api.tfstate"
   }
 }
 
@@ -43,29 +40,23 @@ locals {
 }
 
 data "terraform_remote_state" "state_000base" {
-  backend = "s3"
+  backend = "local"
   config = {
-    bucket = "curtis-terraform-test-2020"
-    key    = "terraform.000base.tfstate"
-    region = "us-east-1"
+    path = "${path.module}/../000base/terraform.000base.tfstate"
   }
 }
 
 data "terraform_remote_state" "state_100security" {
-  backend = "s3"
+  backend = "local"
   config = {
-    bucket = "curtis-terraform-test-2020"
-    key    = "terraform.100security.tfstate"
-    region = "us-east-1"
+    path = "${path.module}/../100security/terraform.100security.tfstate"
   }
 }
 
-data "terraform_remote_state" "state_350container" {
-  backend = "s3"
+data "terraform_remote_state" "state_400container" {
+  backend = "local"
   config = {
-    bucket = "curtis-terraform-test-2020"
-    key    = "terraform.350container.tfstate"
-    region = "us-east-1"
+    path = "${path.module}/../400container/terraform.400container.tfstate"
   }
 }
 

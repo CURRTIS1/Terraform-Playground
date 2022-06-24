@@ -1,4 +1,7 @@
-# Prometheus/Grafana
+# prometheus_grafana
+Terraform prometheus_grafana module
+
+This module creates a test cluster 
 
 ### In order access Prometheus and Grafana
 

@@ -20,6 +20,6 @@ subnet_private_range = [
   "172.16.4.0/24"
 ]
 
-vpc_name = "VPC-Curtis-Onboarding"
+vpc_name = "VPC-Testing"
 
 ssm_role_name = "ssm_role"

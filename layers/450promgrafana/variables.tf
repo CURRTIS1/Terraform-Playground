@@ -1,11 +1,11 @@
 /*
 
-999test - variables.tf
+450promgrafana - variables.tf
 
 */
 
 variable "region" {
-  description = "The region we are building into."
+  description = "The region are building into."
   type        = string
 }
 

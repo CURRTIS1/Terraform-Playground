@@ -7,7 +7,7 @@ This module is used to create an Application Loadbalancer
 Usage:
 
 module "ec2_asg" {
-    source = "github.com/CURRTIS1/Terraform/modules/ec2_alb"
+    source = "../../modules/ec2_alb"
 
     alb_name = var.alb_name
 }

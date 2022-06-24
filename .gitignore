@@ -1,6 +1,10 @@
 *.secret.tf
+*.tfstate
+*.tfstate.lock.info
 .terraform/
 *.DS_Store
 *.tpl
 private.md
 *.hcl
+999test/
+*.tfstate.backup

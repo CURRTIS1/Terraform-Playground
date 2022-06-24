@@ -8,7 +8,7 @@ This module is used to create a test Linux instance
 Usage:
 
 module "ec2_test_linux" {
- source = "github.com/CURRTIS1/Terraform/modules/ec2_test_linux"
+ source = "../../modules/ec2_test_linux"
 
  linuxtest_instance_name = var.linuxtest_instance_name
 

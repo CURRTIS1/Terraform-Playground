@@ -12,7 +12,7 @@ rds_mysql
 */
 
 terraform {
-  required_version = "1.2.1"
+  required_version = "~> 1.2.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -20,11 +20,8 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket  = "curtis-terraform-test-2020"
-    key     = "terraform.200data.tfstate"
-    region  = "us-east-1"
-    encrypt = true
+  backend "local" {
+    path = "./terraform.200data.tfstate"
   }
 }
 
@@ -43,20 +40,16 @@ locals {
 }
 
 data "terraform_remote_state" "state_000base" {
-  backend = "s3"
+  backend = "local"
   config = {
-    bucket = "curtis-terraform-test-2020"
-    key    = "terraform.000base.tfstate"
-    region = "us-east-1"
+    path = "${path.module}/../000base/terraform.000base.tfstate"
   }
 }
 
 data "terraform_remote_state" "state_100security" {
-  backend = "s3"
+  backend = "local"
   config = {
-    bucket = "curtis-terraform-test-2020"
-    key    = "terraform.100security.tfstate"
-    region = "us-east-1"
+    path = "${path.module}/../100security/terraform.100security.tfstate"
   }
 }
 
@@ -65,7 +58,7 @@ data "terraform_remote_state" "state_100security" {
 ## RDS Instances
 
 module "rds_mysql" {
-  source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/rds_mysql"
+  source = "../../modules/rds_mysql"
 
   subnet_ids             = data.terraform_remote_state.state_000base.outputs.subnet_private
   engine_version         = var.engine_version

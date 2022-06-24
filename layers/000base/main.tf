@@ -8,7 +8,7 @@ vpc_basenetwork
 */
 
 terraform {
-  required_version = "1.2.1"
+  required_version = "~> 1.2.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -17,6 +17,7 @@ terraform {
   }
 
   backend "local" {
+    path = "./terraform.000base.tfstate"
   }
 }
 
@@ -26,19 +27,11 @@ provider "aws" {
   secret_key = var.aws_secret_key
 }
 
-data "terraform_remote_state" "local_state" {
-  backend = "local"
-
-  config = {
-    path = "${path.module}/terraform.000base.tfstate"
-  }
-}
-
 ## ----------------------------------
 ## vpc module
 
 module "vpc_basenetwork" {
-  source = "github.com/CURRTIS1/Terraform/modules/vpc_basenetwork"
+  source = "../../modules/vpc_basenetwork"
 
   vpc_cidr             = var.vpc_cidr
   subnet_public_range  = var.subnet_public_range
@@ -51,7 +44,7 @@ module "vpc_basenetwork" {
 ## ssm role module
 
 module "ssm_role" {
-  source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/ssm_role"
+  source = "../../modules/ssm_role"
 
   ssm_role_name = var.ssm_role_name
 }

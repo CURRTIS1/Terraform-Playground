@@ -8,7 +8,7 @@ This module is used to create an Autoscaling group with EC2 instances
 Usage:
 
 module "ec2_asg" {
-    source = "github.com/CURRTIS1/Terraform/modules/ec2_asg"
+    source = "../../modules/ec2_asg"
 
     image_id = var.ami_id
 }

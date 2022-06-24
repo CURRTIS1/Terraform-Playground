@@ -8,7 +8,7 @@ This module is used to create a mySQL RDS instancs
 Usage:
 
 module "key_pair" {
-    source = "github.com/CURRTIS1/Terraform/modules/key_pair"
+    source = "../../modules/key_pair"
 
     key_name = var.key_name
 
@@ -35,7 +35,7 @@ locals {
 
 resource "aws_key_pair" "mykp" {
   key_name   = var.key_name
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxEjd30DO25FSHbpUEzmcGetk/vSP7u0TRkuISLhOudze5ULm6vyV6F+Tv4lNezINnc2U9JhDBU+wlxLXsbN1mefPVVl9w5suVARDz54z20T2IoXulme04RjteqeKkMw2/L5iSbc+uTJj59C57D/BJqxd54P+yLAbYB5QCcnACaCqHYEAJjWv5hQS5XE0WNmRzVkohsD7IoanmF23RRwXsS5tuoqObcjDUOruUj4/t/6lLXA6TwNE+f/XWD4mxBK0Ec1YX7IVGDfhvBHJ+03nY6xiQkLEqNyzLlGT9Y1S+9W/6z8O0TlzH79z3FuoPUTPlhUtdTYtt81RUTTxpKrDN curtis@CURTIS-mac"
+  public_key = var.public_key
 
   tags = merge(
     local.tags, {

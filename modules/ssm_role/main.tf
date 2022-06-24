@@ -7,7 +7,7 @@ This module is used to create an SSM role for EC2 instances
 Usage:
 
 module "ssm_role" {
-    source = "github.com/CURRTIS1/Terraform/modules/ssm_role"
+    source = "../../modules/ssm_role"
 
     ssm_role_name = "ssm_role"
 

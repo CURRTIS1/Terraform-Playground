@@ -16,7 +16,7 @@ ec2_test_linux
 */
 
 terraform {
-  required_version = "1.2.1"
+  required_version = "~> 1.2.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -24,11 +24,8 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket  = "curtis-terraform-test-2020"
-    key     = "terraform.300compute.tfstate"
-    region  = "us-east-1"
-    encrypt = true
+  backend "local" {
+    path = "./terraform.300compute.tfstate"
   }
 }
 
@@ -47,29 +44,23 @@ locals {
 }
 
 data "terraform_remote_state" "state_000base" {
-  backend = "s3"
+  backend = "local"
   config = {
-    bucket = "curtis-terraform-test-2020"
-    key    = "terraform.000base.tfstate"
-    region = "us-east-1"
+    path = "${path.module}/../000base/terraform.000base.tfstate"
   }
 }
 
 data "terraform_remote_state" "state_100security" {
-  backend = "s3"
+  backend = "local"
   config = {
-    bucket = "curtis-terraform-test-2020"
-    key    = "terraform.100security.tfstate"
-    region = "us-east-1"
+    path = "${path.module}/../100security/terraform.100security.tfstate"
   }
 }
 
 data "terraform_remote_state" "state_200data" {
-  backend = "s3"
+  backend = "local"
   config = {
-    bucket = "curtis-terraform-test-2020"
-    key    = "terraform.200data.tfstate"
-    region = "us-east-1"
+    path = "${path.module}/../200data/terraform.200data.tfstate"
   }
 }
 
@@ -78,9 +69,10 @@ data "terraform_remote_state" "state_200data" {
 ## Key Pair
 
 module "key_pair" {
-  source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/key_pair"
+  source = "../../modules/key_pair"
 
   key_name = var.key_name
+ # public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxEjd30DO25FSHbpUEzmcGetk/vSP7u0TRkuISLhOudze5ULm6vyV6F+Tv4lNezINnc2U9JhDBU+wlxLXsbN1mefPVVl9w5suVARDz54z20T2IoXulme04RjteqeKkMw2/L5iSbc+uTJj59C57D/BJqxd54P+yLAbYB5QCcnACaCqHYEAJjWv5hQS5XE0WNmRzVkohsD7IoanmF23RRwXsS5tuoqObcjDUOruUj4/t/6lLXA6TwNE+f/XWD4mxBK0Ec1YX7IVGDfhvBHJ+03nY6xiQkLEqNyzLlGT9Y1S+9W/6z8O0TlzH79z3FuoPUTPlhUtdTYtt81RUTTxpKrDN curtis@CURTIS-mac"
 
 }
 
@@ -89,7 +81,7 @@ module "key_pair" {
 ## Application Loadbalancer
 
 module "ec2_alb" {
-  source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/ec2_alb"
+  source = "../../modules/ec2_alb"
 
   vpc_id             = data.terraform_remote_state.state_000base.outputs.vpc_id
   elb_subnets        = data.terraform_remote_state.state_000base.outputs.subnet_public
@@ -103,14 +95,14 @@ module "ec2_alb" {
 ## Autoscaling Group
 
 module "ec2_asg" {
-  source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/ec2_asg"
+  source = "../../modules/ec2_asg"
 
   instance_type           = var.asg_instance_type
   key_pair                = module.key_pair.keypair_id
   security_groups         = [data.terraform_remote_state.state_100security.outputs.sg_web]
   iam_instance_profile    = data.terraform_remote_state.state_000base.outputs.ssm_profile
-  asg_lt_name             = "Curtis-LT-Test"
-  asg_name                = "Curtis-ASG-Test"
+  asg_lt_name             = "LT-Test"
+  asg_name                = "ASG-Test"
   autoscale_min           = 1
   autoscale_max           = 1
   target_group_arn        = [module.ec2_alb.elb_target_group]
@@ -124,7 +116,7 @@ module "ec2_asg" {
 ## Windows test instance
 
 module "ec2_test_windows" {
-  source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/ec2_test_windows"
+  source = "../../modules/ec2_test_windows"
 
   windowstest_instance_name          = var.windowstest_instance_name
   windowstest_subnet_id              = data.terraform_remote_state.state_000base.outputs.subnet_private[0]
@@ -139,7 +131,7 @@ module "ec2_test_windows" {
 ## Linux test instance
 
 module "ec2_test_linux" {
-  source = "github.com/CURRTIS1/AWS-Onboarding/Terraform/modules/ec2_test_linux"
+  source = "../../modules/ec2_test_linux"
 
   linuxtest_instance_name          = var.linuxtest_instance_name
   linuxtest_subnet_id              = data.terraform_remote_state.state_000base.outputs.subnet_private[0]

@@ -7,7 +7,7 @@ This module is used to create a VPC
 Usage:
 
 module "vpc" {
-    source = "github.com/CURRTIS1/Terraform/modules/vpc_basenetwork"
+    source = "../../modules/vpc_basenetwork"
 
     vpc_name = var.vpc_name
 }

@@ -27,3 +27,8 @@ variable "key_name" {
   type        = string
   default     = "MyKP"
 }
+
+variable "public_key" {
+  description = "The public key for your key pair"
+  type        = string
+}

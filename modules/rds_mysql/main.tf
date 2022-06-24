@@ -8,7 +8,7 @@ This module is used to create a mySQL RDS instance
 Usage
 
 module "rds_mysql" {
-    source = "github.com/CURRTIS1/Terraform/modules/rds_mysql"
+    source = "../../modules/rds_mysql"
 
     engine_version = var.engine_version
 
@@ -54,7 +54,7 @@ resource "aws_db_instance" "myrdsinstance" {
   engine                 = "mysql"
   engine_version         = var.engine_version
   instance_class         = var.instance_class
-  db_name                   = var.name
+  db_name                = var.name
   multi_az               = var.multi_az
   identifier             = var.identifier
   port                   = var.port
