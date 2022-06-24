@@ -123,7 +123,7 @@ module "ec2_test_windows" {
   windowstest_vpc_security_group_ids = [data.terraform_remote_state.state_100security.outputs.sg_testing]
   windowstest_iam_instance_profile   = data.terraform_remote_state.state_000base.outputs.ssm_profile
   windowstest_instance_type          = var.windowstest_instance_type
-  windowstest_key_name               = module.key_pair.keypair_id
+  #windowstest_key_name               = module.key_pair.keypair_id
 }
 
 
