@@ -47,7 +47,7 @@ variable "windowstest_instance_type" {
 variable "windowstest_key_name" {
   description = "Key pair for the instance"
   type        = string
-  default = ""
+  default     = ""
 }
 
 variable "windowstest_instance_name" {

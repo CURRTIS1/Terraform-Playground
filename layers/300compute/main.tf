@@ -64,7 +64,7 @@ data "terraform_remote_state" "state_200data" {
   }
 }
 
-
+/*
 ## ----------------------------------
 ## Key Pair
 
@@ -72,10 +72,10 @@ module "key_pair" {
   source = "../../modules/key_pair"
 
   key_name = var.key_name
- # public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxEjd30DO25FSHbpUEzmcGetk/vSP7u0TRkuISLhOudze5ULm6vyV6F+Tv4lNezINnc2U9JhDBU+wlxLXsbN1mefPVVl9w5suVARDz54z20T2IoXulme04RjteqeKkMw2/L5iSbc+uTJj59C57D/BJqxd54P+yLAbYB5QCcnACaCqHYEAJjWv5hQS5XE0WNmRzVkohsD7IoanmF23RRwXsS5tuoqObcjDUOruUj4/t/6lLXA6TwNE+f/XWD4mxBK0Ec1YX7IVGDfhvBHJ+03nY6xiQkLEqNyzLlGT9Y1S+9W/6z8O0TlzH79z3FuoPUTPlhUtdTYtt81RUTTxpKrDN curtis@CURTIS-mac"
+  public_key = ""
 
 }
-
+*/
 
 ## ----------------------------------
 ## Application Loadbalancer
@@ -97,8 +97,8 @@ module "ec2_alb" {
 module "ec2_asg" {
   source = "../../modules/ec2_asg"
 
-  instance_type           = var.asg_instance_type
-  key_pair                = module.key_pair.keypair_id
+  instance_type = var.asg_instance_type
+  #key_pair                = module.key_pair.keypair_id
   security_groups         = [data.terraform_remote_state.state_100security.outputs.sg_web]
   iam_instance_profile    = data.terraform_remote_state.state_000base.outputs.ssm_profile
   asg_lt_name             = "LT-Test"
@@ -138,5 +138,5 @@ module "ec2_test_linux" {
   linuxtest_vpc_security_group_ids = [data.terraform_remote_state.state_100security.outputs.sg_testing]
   linuxtest_iam_instance_profile   = data.terraform_remote_state.state_000base.outputs.ssm_profile
   linuxtest_instance_type          = var.linuxtest_instance_type
-  linuxtest_key_name               = module.key_pair.keypair_id
+  #linuxtest_key_name               = module.key_pair.keypair_id
 }

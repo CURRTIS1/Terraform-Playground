@@ -47,7 +47,7 @@ variable "linuxtest_instance_type" {
 variable "linuxtest_key_name" {
   description = "Key pair for the instance"
   type        = string
-  default = ""
+  default     = ""
 }
 
 variable "linuxtest_instance_name" {

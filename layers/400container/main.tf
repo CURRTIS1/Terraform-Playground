@@ -59,13 +59,14 @@ data "aws_caller_identity" "current" {
 
 
 ## ----------------------------------
-## ECS attachment
+## ECS policy attachment
 
 resource "aws_iam_role_policy_attachment" "ecs_ssm_role_attach" {
   role       = data.terraform_remote_state.state_000base.outputs.ssm_role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
+/*
 ## ----------------------------------
 ## Key Pair
 
@@ -73,8 +74,9 @@ module "key_pair" {
   source = "../../modules/key_pair"
 
   key_name = var.key_name
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxEjd30DO25FSHbpUEzmcGetk/vSP7u0TRkuISLhOudze5ULm6vyV6F+Tv4lNezINnc2U9JhDBU+wlxLXsbN1mefPVVl9w5suVARDz54z20T2IoXulme04RjteqeKkMw2/L5iSbc+uTJj59C57D/BJqxd54P+yLAbYB5QCcnACaCqHYEAJjWv5hQS5XE0WNmRzVkohsD7IoanmF23RRwXsS5tuoqObcjDUOruUj4/t/6lLXA6TwNE+f/XWD4mxBK0Ec1YX7IVGDfhvBHJ+03nY6xiQkLEqNyzLlGT9Y1S+9W/6z8O0TlzH79z3FuoPUTPlhUtdTYtt81RUTTxpKrDN curtis@CURTIS-mac"
+  public_key = ""
 }
+*/
 
 ## ----------------------------------
 ## Autoscaling Group
@@ -82,14 +84,14 @@ module "key_pair" {
 module "ec2_asg" {
   source = "../../modules/ec2_asg"
 
-  instance_type        = var.asg_instance_type
-  key_pair             = module.key_pair.keypair_id
-  security_groups      = [data.terraform_remote_state.state_100security.outputs.sg_ecs]
-  iam_instance_profile = data.terraform_remote_state.state_000base.outputs.ssm_profile
-  asg_lt_name          = "LT-Test"
-  asg_name             = "ASG-Test-ECS"
-  autoscale_min        = 2
-  autoscale_max        = 2
+  instance_type = var.asg_instance_type
+  #key_pair             = module.key_pair.keypair_id
+  security_groups         = [data.terraform_remote_state.state_100security.outputs.sg_ecs]
+  iam_instance_profile    = data.terraform_remote_state.state_000base.outputs.ssm_profile
+  asg_lt_name             = "LT-Test"
+  asg_name                = "ASG-Test-ECS"
+  autoscale_min           = 2
+  autoscale_max           = 2
   vpc_subnets             = data.terraform_remote_state.state_000base.outputs.subnet_private
   pre_user_data_commands  = var.pre_user_data_commands
   post_user_data_commands = var.post_user_data_commands
@@ -241,16 +243,20 @@ resource "aws_iam_role_policy_attachment" "codebuildrole_attach2" {
 ## ----------------------------------
 ## Codebuild project
 
+data "template_file" "buildspec" {
+  template = file("${path.module}/app/buildspec.yml")
+}
+
 resource "aws_codebuild_project" "mycodebuildproject" {
   name         = "my-codebuild-project"
   description  = "Test codebuild project"
   service_role = aws_iam_role.codebuild_role.arn
   source {
-    type     = "GITHUB"
-    location = "https://github.com/CURRTIS1/Interviewapp.git"
+    type      = "CODEPIPELINE"
+    buildspec = data.template_file.buildspec.rendered
   }
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "CODEPIPELINE"
   }
   environment {
     type            = "LINUX_CONTAINER"
@@ -364,7 +370,6 @@ resource "aws_ecs_task_definition" "mytaskdef" {
       portMappings = [
         {
           containerPort = 80
-          #hostPort      = 80
         }
       ]
     }
@@ -428,13 +433,13 @@ resource "aws_route53_health_check" "alb_check" {
 resource "aws_sns_topic" "alb_topic" {
   name = "My-alb-check"
 }
-
+/*
 resource "aws_sns_topic_subscription" "my_alb_sub" {
   topic_arn = aws_sns_topic.alb_topic.arn
   protocol  = "sms"
-  endpoint  = "+447801455201"
+  endpoint  = "+447123456789"
 }
-
+*/
 resource "aws_cloudwatch_metric_alarm" "alb_check" {
   alarm_name          = "alb_check"
   metric_name         = "HealthCheckPercentageHealthy"
@@ -489,7 +494,7 @@ resource "null_resource" "my_resource" {
 
 
 ## ----------------------------------
-## Codepipeline
+## Codepipeline IAM
 
 resource "aws_iam_role" "codepipeline_role" {
   name = "codepipeline_role"
@@ -549,6 +554,10 @@ resource "aws_iam_role_policy_attachment" "codepipeline_role_attach" {
   policy_arn = aws_iam_policy.codepipeline_policy.arn
 }
 
+
+## ----------------------------------
+## Codepipeline
+
 resource "aws_codepipeline" "mycodepipeline" {
   name     = "Codepipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
@@ -570,7 +579,7 @@ resource "aws_codepipeline" "mycodepipeline" {
 
       configuration = {
         S3Bucket             = "${aws_s3_bucket.codebuild_bucket.id}"
-        S3ObjectKey          = "CWApp.zip"
+        S3ObjectKey          = "App.zip"
         PollForSourceChanges = true
       }
     }
@@ -595,6 +604,9 @@ resource "aws_codepipeline" "mycodepipeline" {
   }
 }
 
+
+## ----------------------------------
+## Internal ALB
 
 module "ec2_alb_internal" {
   source = "../../modules/ec2_alb"

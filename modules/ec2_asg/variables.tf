@@ -31,6 +31,7 @@ variable "instance_type" {
 variable "key_pair" {
   description = "Key pair for the ASG instances"
   type        = string
+  default     = ""
 }
 
 variable "security_groups" {
