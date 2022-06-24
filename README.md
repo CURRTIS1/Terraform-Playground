@@ -26,19 +26,14 @@ variable "aws_secret_key" {
 }
 ```
 
-#### The stored credentials in your secrets file are referenced in the provider block
-```
-provider "aws" {
-  region     = var.region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
-}
-```
 
-###### Note: This repo expects you to have at least terraform version 1.2.0 installed
-###### Note: When forking this repo ensure to update the module sources in the main.tf files
-###### Note: Each layer stores its own state file relative to the folder
-###### Note: The playground account lasts four hours and after that everything is deleted
-###### Note: The playground doesn’t have any resources when created
-###### Note: A Cloud Guru doesn’t count playground use as activity so your account may end up being marked as ‘inactive’ if you aren’t doing courses/labs.
-###### Note: If you don't destroy your resources you may need to run a 'terraform state rm' next apply when using new access keys in ACG
+#### Notes:
+###### The stored credentials in your secrets file are referenced in the provider block
+###### This repo expects you to have at least terraform version 1.2.0 installed
+###### You don't have to run every layer, just 000base and any 'required layer' listed in the main.tf file
+###### If you are forking this repo ensure to update the module sources in the main.tf files
+###### Each layer stores its own state file relative to the folder
+###### The playground account lasts four hours and after that everything is deleted
+###### The playground doesn’t have any resources when created
+###### A Cloud Guru doesn’t count playground use as activity so your account may end up being marked as ‘inactive’ if you aren’t doing courses/labs.
+###### If you don't destroy your resources you may need to run a 'terraform state rm' next apply when using new access keys in ACG
