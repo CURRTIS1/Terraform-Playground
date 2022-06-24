@@ -22,6 +22,16 @@ variable "layer" {
   default     = "400container"
 }
 
+variable "aws_access_key" {
+  description = "AWS Access Key"
+  type        = string
+}
+
+variable "aws_secret_key" {
+  description = "AWS Secret Access Key"
+  type        = string
+}
+
 variable "vpc_id" {
   description = "VPC hosting the ECS service"
   type        = string

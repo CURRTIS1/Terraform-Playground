@@ -46,14 +46,14 @@ resource "aws_s3_bucket_versioning" "prometheus_bucket_versioning" {
 
 
 ## ----------------------------------
-## S3 bucket
+## Pushing prometheus.yml to S3
 
 resource "null_resource" "my_resource" {
   triggers = {
     always_run = "${timestamp()}"
   }
   provisioner "local-exec" {
-    command = "aws s3 sync ${path.module}/prometheus.yml s3://${aws_s3_bucket.prometheus_bucket.id}"
+    command = "aws s3 sync ${path.module}/prometheus_config s3://${aws_s3_bucket.prometheus_bucket.id}"
     environment = {
       AWS_ACCESS_KEY_ID     = var.aws_access_key
       AWS_SECRET_ACCESS_KEY = var.aws_secret_key

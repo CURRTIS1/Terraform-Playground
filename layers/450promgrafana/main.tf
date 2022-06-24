@@ -57,4 +57,6 @@ module "prometheus_grafana" {
   efs_subnet_id2 = data.terraform_remote_state.state_000base.outputs.subnet_public.1
   ecs_subnet_id1 = [data.terraform_remote_state.state_000base.outputs.subnet_public.0]
   ecs_subnet_id2 = [data.terraform_remote_state.state_000base.outputs.subnet_public.1]
+  aws_access_key = var.aws_access_key
+  aws_secret_key = var.aws_secret_key
 }
