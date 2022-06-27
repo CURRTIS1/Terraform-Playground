@@ -36,6 +36,7 @@ variable "aws_secret_key" {
 -----------------------------------------------------------------------------------------------
 
 #### Notes:
+###### You will need to download the AWS CLI for the local executions to work
 ###### The stored credentials in your secrets file are referenced in the provider block
 ###### This repo expects you to have at least terraform version 1.2.0 installed
 ###### You don't have to run every layer, just 000base and any 'required layer' listed in the main.tf file
