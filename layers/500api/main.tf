@@ -358,7 +358,7 @@ resource "aws_api_gateway_integration" "get-integration2" {
   http_method             = aws_api_gateway_method.GetMethod2.http_method
   integration_http_method = "GET"
   type                    = "HTTP"
-  uri                     = "http://${data.terraform_remote_state.state_350container.outputs.elb_alb}/get"
+  uri                     = "http://${data.terraform_remote_state.state_400container.outputs.elb_alb}/get"
   connection_type         = "INTERNET"
   passthrough_behavior    = "WHEN_NO_MATCH"
 }
@@ -429,7 +429,7 @@ resource "aws_api_gateway_integration" "get-integrationNLB" {
   http_method             = aws_api_gateway_method.GetMethodNLB.http_method
   integration_http_method = "GET"
   type                    = "HTTP"
-  uri                     = "http://${data.terraform_remote_state.state_350container.outputs.elb_nlb}/get"
+  uri                     = "http://${data.terraform_remote_state.state_400container.outputs.elb_nlb}/get"
   connection_type         = "VPC_LINK"
   connection_id           = aws_api_gateway_vpc_link.vpclink-nlb.id
   passthrough_behavior    = "WHEN_NO_MATCH"
@@ -476,5 +476,5 @@ resource "aws_api_gateway_integration_response" "MyGetIntegrationResponseNLB" {
 resource "aws_api_gateway_vpc_link" "vpclink-nlb" {
   name        = "NLB-VPC-Link"
   description = "VPC Link to internal NLB"
-  target_arns = [data.terraform_remote_state.state_350container.outputs.elb_nlb_arn]
+  target_arns = [data.terraform_remote_state.state_400container.outputs.elb_nlb_arn]
 }
