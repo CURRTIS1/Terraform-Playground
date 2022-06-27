@@ -16,3 +16,4 @@ http://<public-ip>:9090
 ```
 http://<public-ip>:3000
 ```
+##### Note: The user/password for Grafana upon first deployment is admin/admin
