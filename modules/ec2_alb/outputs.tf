@@ -9,9 +9,19 @@ output "elb_target_group" {
   description = "Id of the Target Group"
 }
 
+output "elb_target_group_name" {
+  value       = aws_lb_target_group.elb_target_group.name
+  description = "Name of the Target Group"
+}
+
 output "elb" {
   value       = aws_lb.myelb.id
   description = "Id of the ALB"
+}
+
+output "elb_name" {
+  value       = aws_lb.myelb.name
+  description = "Name of the ALB"
 }
 
 output "elb_dns" {
