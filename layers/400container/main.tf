@@ -11,11 +11,11 @@ Required modules:
 */
 
 terraform {
-  required_version = "~> 1.2.0"
+  required_version = "~> 1.5.5"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.15.0"
+      version = "~> 5.0"
     }
   }
 
@@ -337,8 +337,9 @@ resource "aws_iam_policy" "ecs_policy" {
     {
       "Sid" : "ECR",
       "Effect" : "Allow",
-      "Action" : [
-        "ecr:*"
+      "Action": [
+        "ecr:*",
+        "logs:*"
       ],
       "Resource" : [
         "*"

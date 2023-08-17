@@ -12,11 +12,11 @@ Required modules:
 */
 
 terraform {
-  required_version = "~> 1.2.0"
+  required_version = "~> 1.5.5"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = "~> 5.0"
     }
   }
 
@@ -121,7 +121,7 @@ resource "aws_elastic_beanstalk_application_version" "elasticappv1" {
 resource "aws_elastic_beanstalk_environment" "beanstalkappenv" {
   name                = "MyElasticBeanstalkEnv"
   application         = aws_elastic_beanstalk_application.elasticapp.name
-  solution_stack_name = "64bit Amazon Linux 2 v3.3.15 running Python 3.8"
+  solution_stack_name = "64bit Amazon Linux 2 v3.4.0 running Python 3.8"
   tier                = "WebServer"
   version_label       = "MyElasticBeanstalkAppv1"
   setting {

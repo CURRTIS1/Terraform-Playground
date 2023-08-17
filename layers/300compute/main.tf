@@ -16,11 +16,11 @@ ec2_test_linux
 */
 
 terraform {
-  required_version = "~> 1.2.0"
+  required_version = "~> 1.5.5"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = "~> 5.0"
     }
   }
 
@@ -54,13 +54,6 @@ data "terraform_remote_state" "state_100security" {
   backend = "local"
   config = {
     path = "${path.module}/../100security/terraform.100security.tfstate"
-  }
-}
-
-data "terraform_remote_state" "state_200data" {
-  backend = "local"
-  config = {
-    path = "${path.module}/../200data/terraform.200data.tfstate"
   }
 }
 

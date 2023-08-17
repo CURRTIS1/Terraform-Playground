@@ -15,7 +15,7 @@ module "vpc" {
 */
 
 terraform {
-  required_version = "~> 1.2.0"
+  required_version = "~> 1.5.5"
 }
 
 locals {
@@ -110,7 +110,7 @@ resource "aws_subnet" "subnet_private" {
 
 resource "aws_eip" "natgwip" {
   count      = var.az_count
-  vpc        = true
+  domain     = "vpc"
   depends_on = [aws_internet_gateway.main_igw]
 
   tags = merge(
