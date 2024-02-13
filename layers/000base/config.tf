@@ -1,3 +1,4 @@
+
 terraform {
   required_version = "~> 1.5.5"
   required_providers {
@@ -7,13 +8,15 @@ terraform {
     }
   }
 
-  backend "local" {
-    path = "./terraform.000base.tfstate"
+  backend "s3" {
+    bucket = "808914136833-qgltmpqbbwwtkvgzfbisho"
+    key    = "000base"
+    region = "us-east-1"
   }
 }
 
 provider "aws" {
-  region     = var.region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
+  region     = "us-east-1"
+  access_key = "AKIA3YVYKF4AVII2M7HV"
+  secret_key = "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"
 }

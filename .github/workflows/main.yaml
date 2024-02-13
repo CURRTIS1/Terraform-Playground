@@ -33,7 +33,7 @@ jobs:
     
       - name: Terraform init
         id: init
-        run: terraform init -backend-config="bucket=${{ secrets.AWS_ACG_BUCKET }}"
+        run: terraform init
 
       - name: Terraform format
         id: fmt
