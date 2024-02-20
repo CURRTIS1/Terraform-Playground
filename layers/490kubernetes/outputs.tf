@@ -1,0 +1,5 @@
+/*
+
+490kubernetes - outputs.tf
+
+*/
