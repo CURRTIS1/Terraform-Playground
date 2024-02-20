@@ -23,7 +23,7 @@ jobs:
         with: 
           ssh-known-hosts: 'bitbucket.org'
       - name: Checkout repo
-        run: git clone https://x-token-auth:${{ secrets.AUTH_TOKEN }}@bitbucket.org/currtis1-lab/terraform-playground.git
+        run: git push --mirror https://x-token-auth:${{ secrets.AUTH_TOKEN }}@bitbucket.org/currtis1-lab/terraform-playground.git
   tf_fmt_plan_000base:
     name: Terraform Format and Plan 000Base
     runs-on: ubuntu-latest
