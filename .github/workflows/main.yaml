@@ -6,7 +6,7 @@ defaults:
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 env:
@@ -42,6 +42,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.5.5
+          terraform_wrapper: false
     
       - name: Terraform init
         id: init
@@ -55,6 +56,8 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan
+      
+      - run: echo ${{ steps.plan.outputs.stdout }}
   tf_apply_000base:
     name: Terraform Apply 000Base
     timeout-minutes: 30
