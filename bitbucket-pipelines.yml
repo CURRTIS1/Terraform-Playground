@@ -3,5 +3,10 @@ clone:
 pipelines:
   default:
     - step:
+        name: sshcmd
+        script:
+        - echo "Adding Github.com to known hosts"
+        - /bin/sh 'ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts'
+    - step:
         script:
           - git push --mirror git@github.com:CURRTIS1/Terraform-Playground.git
