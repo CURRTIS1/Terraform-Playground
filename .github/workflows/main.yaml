@@ -100,13 +100,9 @@ jobs:
         with:
           path: ./layers/000base/
           name: 000base_tfplan
-      - run: |
-          ls -la
-          cd ./000base_tfplan
-          ls -la
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        run: terraform apply -auto-approve ./000base_tfplan
+        run: terraform apply -auto-approve 000base_tfplan
   tf_fmt_plan_100security:
     name: Terraform Format and Plan 100security
     needs: tf_apply_000base
