@@ -71,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: 000base_tfplan
-          path: 000base_tfplan
+          path: ./layers/000base/000base_tfplan
   tf_apply_000base:
     name: Terraform Apply 000Base
     timeout-minutes: 30
