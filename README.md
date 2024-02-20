@@ -1,45 +1,95 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+# Terraform
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+Environment to practice IAC for AWS
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+### In order to use the A Cloud Guru playground account and spin up an environment:
 
----
+##### Clone this repository to your local machine
+```
+git clone git@github.rackspace.com:EE-Squads-AWS/ACG-Playground-Terraform.git
+```
 
-## Edit a file
+#### Create a file called 'terraform.secret.tf' in each layer (ie ./000base/terraform.secret.tf)
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+#### Open a Sandbox environment in A Cloud Guru
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+#### Store the A Cloud Guru credentials in your secrets file 'terraform.secret.tf'
+```
+variable "aws_access_key" {
+  description = "The AWS Access Key"
+  default     = "**************************"
+}
 
----
+variable "aws_secret_key" {
+  description = "The AWS Secret Key"
+  default     = "**************************"
+}
+```
 
-## Create a file
+#### Alternatively use the Python script 'acg.py' which recursively creates a terraform.secret.tf file in the layer subdirectories
 
-Next, you’ll add a new file to this repository.
+Example
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
+`python3 acg.py --access 123456789 --secret 123456789abcdefghijklmnopqrstuvwxyz`
 
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
+#### Run a terraform initialisation for any layer you want to run 'terraform init'
 
----
+#### To apply a layer change your directory to the layer ie ./Terraform/layers/000base and run 'terraform apply'
 
-## Clone a repository
+#### You don't have to apply all layers, just the 000base layer and any subsequent layer listed in the 'Required layers' section in the main.tf file
 
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
+-----------------------------------------------------------------------------------------------
 
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
+#### Notes:
+###### You will need to download the AWS CLI for the local executions to work
+###### The stored credentials in your secrets file are referenced in the provider block
+###### This repo expects you to have at least terraform version 1.2.0 installed
+###### You don't have to run every layer, just 000base and any 'required layer' listed in the main.tf file
+###### If you are forking this repo ensure to update the module sources in the main.tf files
+###### Each layer stores its own state file relative to the folder
+###### The playground account lasts four hours and after that everything is deleted
+###### The playground doesn’t have any resources when created
+###### A Cloud Guru doesn’t count playground use as activity so your account may end up being marked as ‘inactive’ if you aren’t doing courses/labs.
+###### If you don't destroy your resources you may need to run a 'terraform state rm' next apply when using new access keys in ACG
 
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+-----------------------------------------------------------------------------------------------
+
+### Common Errors
+
+##### The below error is caused by a limitation in the ACG playground
+##### Just delete the playground account and re-create a new one
+```
+module.vpc_basenetwork.aws_nat_gateway.natgw[0]: Creating...
+╷
+│ Error: error creating EC2 NAT Gateway: NotAvailableInZone: Nat Gateway is not available in this availability zone
+│       status code: 400, request id: 4fd10fdc-bf3c-453a-8dc3-8e97667b2f94
+│ 
+│   with module.vpc_basenetwork.aws_nat_gateway.natgw[0],
+│   on ../../modules/vpc_basenetwork/main.tf line 128, in resource "aws_nat_gateway" "natgw":
+│  128: resource "aws_nat_gateway" "natgw" {
+  ```
+
+
+
+##### The below error is caused by a limitation in the ACG playground
+##### Just delete the playground account and re-create a new one
+```
+│ Error: error modifying EC2 Subnet (subnet-01cf6852519754003) MapPublicIpOnLaunch: InvalidParameterValue: invalid value for parameter map-public-ip-on-launch: true
+│       status code: 400, request id: 7f397919-6077-441f-8be6-9216c747cc1e
+│ 
+│   with module.vpc_basenetwork.aws_subnet.subnet_public[1],
+│   on ../../modules/vpc_basenetwork/main.tf line 78, in resource "aws_subnet" "subnet_public":
+│   78: resource "aws_subnet" "subnet_public" {
+  ```
+
+
+##### The below error is caused by using a region other than us-east-1
+```
+│ Error: Error fetching Availability Zones: UnauthorizedOperation: You are not authorized to perform this operation.
+│       status code: 403, request id: 805c4f7d-724e-499c-850d-cebeb26bb2ff
+│
+│   with module.base_vpc.data.aws_availability_zones.available,
+│   on ../../modules/vpc_basenetwork/main.tf line 12, in data "aws_availability_zones" "available":
+│   12: data "aws_availability_zones" "available" {
+│
+```
