@@ -45,19 +45,18 @@ jobs:
           terraform_wrapper: true
     
       - name: Terraform init
-        id: init
+        id: 000base_init
         run: terraform init
 
       - name: Terraform format
-        id: fmt
+        id: 000base_fmt
         run: terraform fmt -check
         continue-on-error: true
 
       - name: Terraform Plan
-        id: plan
+        id: 000base_plan
         run: terraform plan
-      
-      - run: echo ${{ steps.plan.outputs.stdout }}
+
   tf_apply_000base:
     name: Terraform Apply 000Base
     timeout-minutes: 30
@@ -78,11 +77,11 @@ jobs:
         with:
           terraform_version: 1.5.5
       - name: Terraform init
-        id: init
+        id: 000base_init
         run: terraform init
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve -input=${{ steps.000base_plan.outputs.stdout }}
   tf_fmt_plan_100security:
     name: Terraform Format and Plan 100security
     needs: tf_apply_000base
