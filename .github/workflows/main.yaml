@@ -20,19 +20,12 @@ jobs:
     name: Mirror to Bitbucket
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      # Make sure the @v0.9.0 matches the current version of the action
+      - uses: webfactory/ssh-agent@v0.9.0
         with:
-          fetch-depth: 0
-      - name: Add known_hosts
-        run: mkdir -p ~/.ssh/ && touch /github/home/.ssh/known_hosts
-      - name: Add bitbucket to allowed hosts
-        run: ssh-keyscan -t rsa bitbucket.org >> /github/home/.ssh/known_hosts
-      - uses: pixta-dev/repository-mirroring-action@v1
-        with:
-          target_repo_url:
-            git@bitbucket.org:currtis1-lab/terraform-playground.git
-          ssh_private_key:
-            ${{ secrets.BITBUCKET_SSH_PRIVATE_KEY }}
+            ssh-private-key: ${{ secrets.BITBUCKET_SSH_PRIVATE_KEY }}
+      - run: git clone git@bitbucket.org:currtis1-lab/terraform-playground.git
   tf_fmt_plan_000base:
     name: Terraform Format and Plan 000Base
     runs-on: ubuntu-latest
