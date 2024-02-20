@@ -37,7 +37,7 @@ jobs:
     steps:
       - name: Checkout the repository to the runner
         uses: actions/checkout@v2
- 
+
       - name: Setup Terraform with specified version on the runner
         uses: hashicorp/setup-terraform@v3
         with:
@@ -55,8 +55,23 @@ jobs:
 
       - name: Terraform Plan
         id: 000base_plan
-        run: terraform plan
+        run: |
+          export exitcode=0
+          terraform plan -detailed-exitcode -no-color -out 000base_tfplan || export exitcode=$?
 
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+          
+          if [ $exitcode -eq 1 ]; then
+            echo Terraform Plan Failed!
+            exit 1
+          else 
+            exit 0
+          fi
+      - name: Publish Terraform Plan
+        uses: actions/upload-artifact@v3
+        with:
+          name: 000base_tfplan
+          path: 000base_tfplan
   tf_apply_000base:
     name: Terraform Apply 000Base
     timeout-minutes: 30
@@ -79,9 +94,13 @@ jobs:
       - name: Terraform init
         id: 000base_init
         run: terraform init
+      - name: Download Terraform Plan
+        uses: actions/download-artifact@v3
+        with:
+          name: 000base_tfplan
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=${{ steps.000base_plan.outputs.stdout }}
+        run: terraform apply -auto-approve 000base_tfplan
   tf_fmt_plan_100security:
     name: Terraform Format and Plan 100security
     needs: tf_apply_000base
