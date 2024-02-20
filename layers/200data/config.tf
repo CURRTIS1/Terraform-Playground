@@ -10,7 +10,7 @@ terraform {
 
   backend "s3" {
     bucket = "325618140111-bcamjausyncneqseyuwrhd"
-    key    = "state_000base"
+    key    = "state_200data"
     region = "us-east-1"
   }
 }
