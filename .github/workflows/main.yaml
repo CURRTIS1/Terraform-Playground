@@ -23,6 +23,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Add known_hosts
+        run: mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
       - name: Add bitbucket to allowed hosts
         run: ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts
       - uses: pixta-dev/repository-mirroring-action@v1
