@@ -16,6 +16,19 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 jobs:
+  bitbucket_mirror:
+    name: Mirror to Bitbucket
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            git@bitbucket.org:currtis1-lab/terraform-playground.git
+          ssh_private_key:
+            ${{ secrets.BITBUCKET_SSH_PRIVATE_KEY }}
   tf_fmt_plan_000base:
     name: Terraform Format and Plan 000Base
     runs-on: ubuntu-latest
