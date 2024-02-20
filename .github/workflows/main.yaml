@@ -45,16 +45,16 @@ jobs:
           terraform_wrapper: true
     
       - name: Terraform init
-        id: 000base_init
+        id: init
         run: terraform init
 
       - name: Terraform format
-        id: 000base_fmt
+        id: fmt
         run: terraform fmt -check
         continue-on-error: true
 
       - name: Terraform Plan
-        id: 000base_plan
+        id: plan
         run: |
           export exitcode=0
           terraform plan -detailed-exitcode -no-color -out 000base_tfplan || export exitcode=$?
@@ -92,7 +92,7 @@ jobs:
         with:
           terraform_version: 1.5.5
       - name: Terraform init
-        id: 000base_init
+        id: init
         run: terraform init
       - name: Download Terraform Plan
         uses: actions/download-artifact@v3
