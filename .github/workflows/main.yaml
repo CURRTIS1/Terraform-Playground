@@ -20,7 +20,8 @@ jobs:
     steps:
       - name: Checkout the repository to the runner
         uses: actions/checkout@v4
-        with: 
+        with:
+          fetch-depth: 'true'
           ssh-known-hosts: 'bitbucket.org'
       - name: Checkout repo
         run: git push --mirror https://x-token-auth:${{ secrets.AUTH_TOKEN }}@bitbucket.org/currtis1-lab/terraform-playground.git
