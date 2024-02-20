@@ -1,4 +1,4 @@
-image: hashicorp/terraform:full
+image: hashicorp/terraform:1.5.5
 pipelines:
     branches:
         master:
