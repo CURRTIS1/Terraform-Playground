@@ -19,10 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository to the runner
-      uses: actions/checkout@v4
-      with: 
-        ssh-key: ${{ secrets.BITBUCKET_SSH_PRIVATE_KEY }}
-        ssh-known-hosts: 'bitbucket.org/'
+        uses: actions/checkout@v4
+        with: 
+          ssh-key: ${{ secrets.BITBUCKET_SSH_PRIVATE_KEY }}
+          ssh-known-hosts: 'bitbucket.org/'
   tf_fmt_plan_000base:
     name: Terraform Format and Plan 000Base
     runs-on: ubuntu-latest
