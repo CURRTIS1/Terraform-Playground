@@ -22,6 +22,8 @@ jobs:
         uses: actions/checkout@v4
         with: 
           ssh-known-hosts: 'bitbucket.org'
+      - name: Checkout repo
+        run: git clone https://x-token-auth:ATCTT3xFfGN0l8uEsrqrJyP5xLGwdsmbcgBrkXsc9DgDxbeDdF6VHZGeTtvpTSgQs55a-quW69dggwNnqACZQ-8mqHjzhpv_W0_pvaHy3Xf34Cy7Uq4KxXgq56aYWl6gv2M7-1QPYQ6gRGRbc12KFdQyQfnI7Z2zJEXIvHrQIsMTxNA7AT4n4yY=C1883935@bitbucket.org/currtis1-lab/terraform-playground.git
   tf_fmt_plan_000base:
     name: Terraform Format and Plan 000Base
     runs-on: ubuntu-latest
