@@ -6,7 +6,7 @@ pipelines:
         name: sshcmd
         script:
         - echo "Adding Github.com to known hosts"
-        - 'ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+        - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     - step:
         script:
           - git push --mirror git@github.com:CURRTIS1/Terraform-Playground.git
