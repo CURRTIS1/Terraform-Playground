@@ -18,11 +18,11 @@ jobs:
     name: Mirror to Bitbucket
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repository to the runner
+      - name: Checkout the Repository to the runner
         uses: actions/checkout@v4
         with:
           fetch-depth: 'true'
-      - name: Checkout repo
+      - name: Copy Repository
         run: git push --mirror https://x-token-auth:${{ secrets.AUTH_TOKEN }}@bitbucket.org/currtis1-lab/terraform-playground.git
   tf_fmt_plan_000base:
     name: Terraform Format and Plan 000Base
