@@ -17,6 +17,7 @@ jobs:
   bitbucket_mirror:
     name: Mirror to Bitbucket
     runs-on: ubuntu-latest
+    environment: 'prod'
     steps:
       - name: Checkout the Repository to the runner
         uses: actions/checkout@v4
@@ -97,6 +98,7 @@ jobs:
       - name: Download Terraform Plan
         uses: actions/download-artifact@v3
         with:
+          path: ./layers/000base/000base_tfplan
           name: 000base_tfplan
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
