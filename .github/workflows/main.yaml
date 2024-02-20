@@ -17,7 +17,6 @@ jobs:
   bitbucket_mirror:
     name: Mirror to Bitbucket
     runs-on: ubuntu-latest
-    environment: 'prod'
     steps:
       - name: Checkout the Repository to the runner
         uses: actions/checkout@v4

@@ -1,8 +1,9 @@
-clone:
-  depth: full
+image: hashicorp/terraform:full
 pipelines:
-  default:
-    - step:
-        name: sshcmd
-        script:
-          - echo "Adding Github.com to known hosts"
+    branches:
+        master:
+            - step:
+                script:
+                    - terraform init -backend-config="access_key=$AWS_ACCESS_KEY_ID" -backend-config="secret_key=$AWS_SECRET_ACCESS_KEY"
+                    - terraform validate
+                    - terraform plan
