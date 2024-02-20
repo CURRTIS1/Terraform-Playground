@@ -2,8 +2,6 @@ name: Deploy Terraform Code to ACG
 defaults:
   run:
     shell: bash
-    # We keep Terraform files in the separate directories.
-    working-directory: ./layers/000base
 
 on:
   push:
