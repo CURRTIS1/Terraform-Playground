@@ -24,9 +24,9 @@ jobs:
         with:
           fetch-depth: 0
       - name: Add bitbucket to allowed hosts
-          run: 
-            - echo "Adding bitbucket.org to known hosts"
-            - ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts
+        run: 
+          - echo "Adding bitbucket.org to known hosts"
+          - ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts
       - uses: pixta-dev/repository-mirroring-action@v1
         with:
           target_repo_url:
