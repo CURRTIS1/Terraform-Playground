@@ -94,6 +94,28 @@ data "terraform_remote_state" "state_{data_layer}" {{
                 data_tf_file.write(tf_code)
                 print(f"Appended '{file_path}'")
 
+# Write function for secret blocks
+def generate_secret_tf(layer,secret1_value,secret2_value):
+    for folder in folders_list:
+        if layer == folder:
+            tf_code = f'''
+# secret.tf - Define sensitive variables or secrets
+
+variable "aws_access_key" {{
+  description = "The AWS Access Key"
+  default     = "{secret1_value}"
+}}
+
+variable "aws_secret_key" {{
+  description = "The AWS Secret Key"
+  default     = "{secret2_value}"
+}}
+'''
+            file_path = os.path.join(folder,"terraform.secret.tf")
+            with open(file_path, "w") as secret_tf_file:
+                secret_tf_file.write(tf_code)
+                print(f"Wrote new '{file_path}'")
+
 # Generate random string for unique S3 bucket name
 def get_random_string(length):
     # choose from all lowercase letter
@@ -146,6 +168,11 @@ generate_data_tf('490kubernetes','000base',tf_bucket)
 generate_data_tf('500api','000base',tf_bucket)
 generate_data_tf('500api','100security',tf_bucket)
 generate_data_tf('500api','400container',tf_bucket)
+
+# Call functions to write secret files
+generate_secret_tf('400container',args.access,args.secret)
+generate_secret_tf('410codedeploy',args.access,args.secret)
+generate_secret_tf('450promgrafana',args.access,args.secret)
 
 # Set Github repo secrets
 subprocess.run(f'gh secret set AWS_ACCESS_KEY_ID --body "{args.access}"', shell = True, executable="/bin/bash")

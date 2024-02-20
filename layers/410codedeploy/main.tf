@@ -11,26 +11,6 @@ Required modules:
 
 */
 
-terraform {
-  required_version = "~> 1.5.5"
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-
-  backend "local" {
-    path = "./terraform.410codedeploy.tfstate"
-  }
-}
-
-provider "aws" {
-  region     = var.region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
-}
-
 locals {
   tags = {
     environment = var.environment
@@ -39,23 +19,8 @@ locals {
   }
 }
 
-data "terraform_remote_state" "state_000base" {
-  backend = "local"
-  config = {
-    path = "${path.module}/../000base/terraform.000base.tfstate"
-  }
-}
-
-data "terraform_remote_state" "state_100security" {
-  backend = "local"
-  config = {
-    path = "${path.module}/../100security/terraform.100security.tfstate"
-  }
-}
-
 data "aws_caller_identity" "current" {
 }
-
 
 data "aws_ami" "linux" {
   most_recent = true
@@ -65,7 +30,6 @@ data "aws_ami" "linux" {
     values = ["amzn2-ami-hvm*"]
   }
 }
-
 
 ## ----------------------------------
 ## CodeDeploy S3 bucket
