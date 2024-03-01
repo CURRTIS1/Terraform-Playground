@@ -179,6 +179,6 @@ subprocess.run(f'gh secret set AWS_ACCESS_KEY_ID --body "{args.access}"', shell 
 subprocess.run(f'gh secret set AWS_SECRET_ACCESS_KEY --body "{args.secret}"', shell = True, executable="/bin/bash")
 
 # Read bitbucket app password
-bitbucket_user = 'CURRTIS1'
-with open("password") as f:
-    bitbucket_pass = f.read()
+#bitbucket_user = 'CURRTIS1'
+#with open("password") as f:
+#    bitbucket_pass = f.read()

@@ -9,7 +9,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "563940537117-gyzkxjkvvkxgmmenebvnuc"
+    bucket = "286206761753-klwedolikzimdtoonagjfo"
     key    = "state_410codedeploy"
     region = "us-east-1"
   }
