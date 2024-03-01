@@ -9,10 +9,15 @@ pipelines:
                     - terraform init -backend-config="access_key=$AWS_ACCESS_KEY_ID" -backend-config="secret_key=$AWS_SECRET_ACCESS_KEY"
                     - terraform validate
                     - terraform plan -no-color -out 000base_tfplan
+                artifacts:
+                  - layers/000base/000base_tfplan
             - step:
                 name: 000base_apply
+                trigger: manual
+                artifacts:
+                  download: true
                 script:
                     - cd layers/000base
                     - terraform init -backend-config="access_key=$AWS_ACCESS_KEY_ID" -backend-config="secret_key=$AWS_SECRET_ACCESS_KEY"
                     - terraform validate
-                    - terraform -auto-approve 000base_tfplan
+                    - terraform apply -auto-approve 000base_tfplan
